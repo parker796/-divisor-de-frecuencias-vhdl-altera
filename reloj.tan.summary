@@ -1,0 +1,36 @@
+--------------------------------------------------------------------------------------
+Timing Analyzer Summary
+--------------------------------------------------------------------------------------
+
+Type           : Worst-case tco
+Slack          : N/A
+Required Time  : None
+Actual Time    : 8.298 ns
+From           : interna
+To             : clk_1hz
+From Clock     : clk_50mhz
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Clock Setup: 'clk_50mhz'
+Slack          : N/A
+Required Time  : None
+Actual Time    : 232.13 MHz ( period = 4.308 ns )
+From           : contador1[17]
+To             : contador1[0]
+From Clock     : clk_50mhz
+To Clock       : clk_50mhz
+Failed Paths   : 0
+
+Type           : Total number of failed paths
+Slack          : 
+Required Time  : 
+Actual Time    : 
+From           : 
+To             : 
+From Clock     : 
+To Clock       : 
+Failed Paths   : 0
+
+--------------------------------------------------------------------------------------
+

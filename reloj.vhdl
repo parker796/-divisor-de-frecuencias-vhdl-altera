@@ -1,0 +1,257 @@
+-- Describimos nuestro reloj
+use work.ldl_bib.all;
+
+entity reloj is
+port(
+    clk_50mhz:in bit; 
+    clk_1hz: out bit; 
+    clk_2hz: out bit; 
+    clk_4hz: out bit; 
+    clk_8hz: out bit; 
+    d0: out bit_vector(6 downto 0); 
+    d1: out bit_vector(6 downto 0); 
+    d2: out bit_vector(6 downto 0); 
+    d3: out bit_vector(6 downto 0) 
+    );
+end entity reloj;
+
+architecture beh of reloj is
+type memoria_t is array(0 to 5) of bit_vector(3 downto 0);
+signal mem:memoria_t:=("0000","0001","0010","0011","0100","0101");
+type d_t is array(0 to 3) of bit_vector(6 downto 0);
+signal d:d_t:=("1111110","1111101","1111011","1110111");
+    constant maximo:integer:= 50000000; 
+    constant maximo1:integer:= 25000000; 
+    constant maximo2:integer:= 12500000; 
+    constant maximo3:integer:=  6250000; 
+    constant max:integer:=  6;
+    signal cont:integer range 0 to max;     
+    signal disp,disp1,disp2,disp3:integer range 0 to 6;     
+    signal contador:integer range 0 to maximo;
+    signal contador1:integer range 0 to maximo1;
+    signal contador2:integer range 0 to maximo2;
+    signal contador3:integer range 0 to maximo3;
+    signal clk_disp,clk_disp1,clk_disp2,clk_disp3:integer:=0;
+    signal clk_estado:bit:='0';
+    signal clk_estado1:bit:='0';
+    signal clk_estado2:bit:='0';
+    signal clk_estado3:bit:='0';
+    signal interna,interna1,interna2,interna3:bit;--8
+   signal a,b,c,e:bit_vector(3 downto 0);
+
+	
+ begin 
+
+
+	   clk_disp<=disp;
+		clk_estado<=interna;
+   process(clk_50mhz,clk_estado,contador)
+      begin
+       if clk_50mhz'event and clk_50mhz='1' then
+           
+            if contador < maximo then
+			contador <= contador+1;
+			else 
+			interna <= not interna;
+			contador <= 0;
+			if disp < 5 then
+			disp<=disp + 1;
+			else
+			 disp<= 0;
+			end if;			
+			end if;
+       end if; 
+     end process;
+	  
+
+
+	process(clk_estado,clk_disp)
+		begin
+			clk_1hz <= clk_estado;
+			
+			if clk_disp = 0 then
+			e<="0000";
+			elsif clk_disp = 1 then
+			e<="0001";
+			elsif clk_disp = 2 then
+			e<="0010";
+			elsif clk_disp = 3 then
+			e<="0011";
+			elsif clk_disp = 4 then
+			e<="0100";
+			elsif clk_disp = 5 then
+			e<="0101";
+			else
+			e<="1111";			
+			end if;
+	end process;
+	
+	
+--------------------	
+
+	   clk_disp1<=disp1;
+		clk_estado1<=interna1;
+   process(clk_50mhz,clk_estado1,contador1)
+      begin
+       if clk_50mhz'event and clk_50mhz='1' then
+           
+            if contador1 < maximo1 then
+			contador1 <= contador1+1;
+			else 
+			interna1 <= not interna1;
+			contador1 <= 0;
+			if disp1 < 5 then
+			disp1<=disp1 + 1;
+			else
+			 disp1<= 0;
+			end if;
+			
+			end if;
+       end if; 
+     end process;
+	  
+
+     
+     
+	process(clk_estado1,clk_disp1)
+		begin
+			clk_2hz <= clk_estado1;
+			
+			if clk_disp1 = 0 then
+			c<="0000";
+			elsif clk_disp1 = 1 then
+			c<="0001";
+			elsif clk_disp1 = 2 then
+			c<="0010";
+			elsif clk_disp1 = 3 then
+			c<="0011";
+			elsif clk_disp1 = 4 then
+			c<="0100";
+			elsif clk_disp1 = 5 then
+			c<="0101";
+			else
+			c<="1111";			
+			end if;
+	end process;
+----------------------
+
+
+	   clk_disp2<=disp2;
+		clk_estado2<=interna2;
+   process(clk_50mhz,clk_estado2,contador2)
+      begin
+       if clk_50mhz'event and clk_50mhz='1' then
+           
+            if contador2 < maximo2 then
+			contador2 <= contador2+1;
+			else 
+			interna2 <= not interna2;
+			contador2 <= 0;
+			if disp2 < 5 then
+			disp2<=disp2 + 1;
+			else
+			 disp2<= 0;
+			end if;
+			
+			end if;
+       end if; 
+     end process;
+	  
+
+	  
+	 
+		process(clk_estado2,clk_disp2)
+		begin
+			clk_4hz <= clk_estado2;
+			if clk_disp2 = 0 then
+			b<="0000";
+			elsif clk_disp2 = 1 then
+			b<="0001";
+			elsif clk_disp2 = 2 then
+			b<="0010";
+			elsif clk_disp2 = 3 then
+			b<="0011";
+			elsif clk_disp2 = 4 then
+			b<="0100";
+			elsif clk_disp2 = 5 then
+			b<="0101";
+			else
+			b<="1111";			
+			end if;
+	end process;
+	
+	
+	
+	
+	
+	
+	--display 3
+	    clk_disp3<=disp3;
+		clk_estado3<=interna3;
+   process(clk_50mhz,clk_estado3,contador3)
+      begin
+       if clk_50mhz'event and clk_50mhz='1' then
+           
+            if contador3 < maximo3 then
+			contador3 <= contador3+1;
+			else 
+			interna3 <= not interna3;
+			contador3 <= 0;
+			if disp3 < 5 then
+			disp3<=disp3 + 1;
+			else
+			 disp3<= 0;
+			end if;
+			
+			end if;
+       end if; 
+     end process;
+	  
+	  
+	process(clk_estado3,clk_disp3)
+		begin
+			clk_8hz <= clk_estado3;
+			
+			if clk_disp3 = 0 then
+			a<="0000";
+			elsif clk_disp3 = 1 then
+			a<="0001";
+			elsif clk_disp3 = 2 then
+			a<="0010";
+			elsif clk_disp3 = 3 then
+			a<="0011";
+			elsif clk_disp3 = 4 then
+			a<="0100";
+			elsif clk_disp3 = 5 then
+			a<="0101";
+			else
+			a<="1111";			
+			end if;
+	end process;
+	
+	
+--conexion de los decodificadores	
+	  u1:decobin2hex7seg
+  port map(
+       ent => a,
+       sal => d3
+        );  
+		  
+	  u2:decobin2hex7seg
+  port map(
+       ent => b,
+       sal => d2
+        );  		  
+
+	  u3:decobin2hex7seg
+  port map(
+       ent => c,
+       sal => d1
+        );  		  
+
+	  u4:decobin2hex7seg
+  port map(
+       ent => e,
+       sal => d0
+        );  		  
+end architecture beh;
